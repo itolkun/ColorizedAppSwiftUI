@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var redSliderValue = Double.random(in: 0...255)
     @State private var greenSliderValue = Double.random(in: 0...255)
     @State private var blueSliderValue = Double.random(in: 0...255)
-    @State private var textOfTextField = ""
+    
     
     
     var body: some View {
@@ -40,9 +40,9 @@ struct ContentView: View {
                         
                         VStack {
                             
-                            ColorSliderView(value: $redSliderValue, val: $textOfTextField, color: .red)
-                            ColorSliderView(value: $greenSliderValue, val: $textOfTextField, color: .green)
-                            ColorSliderView(value: $blueSliderValue, val: $textOfTextField, color: .blue)
+                            ColorSliderView(value: $redSliderValue, color: .red)
+                            ColorSliderView(value: $greenSliderValue, color: .green)
+                            ColorSliderView(value: $blueSliderValue, color: .blue)
                         }.padding()
                     }
                     
@@ -58,31 +58,34 @@ struct ContentView: View {
 struct ColorSliderView: View {
     @FocusState var isInputActive: Bool
     @Binding var value: Double
-    @Binding var val: String
+    
     let color: Color
     
     var body: some View {
         HStack {
-            VStack {
+            
                 Text("\(lround(value))").foregroundColor(.white)
                 
-            }
+           
             
             Slider(value: $value, in: 0...255, step: 1)
                 .tint(color)
             
-            TextField("", text: $val)
+            TextField("", value: $value, formatter: NumberFormatter())
                 .bordered()
                 .textFieldStyle(.roundedBorder)
                 .focused($isInputActive)
                 .keyboardType(.numberPad)
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard){
-                        Spacer()
+                    
+                            Button("Done") {
+                                isInputActive = false
+                            }
+                            .opacity(isInputActive ? 1 : 0)
+                            
                         
-                        Button("Done") {
-                            isInputActive = false
-                        }
+                        
                     }
                 }
             
