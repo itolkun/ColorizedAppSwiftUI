@@ -12,8 +12,6 @@ struct ContentView: View {
     @State private var greenSliderValue = Double.random(in: 0...255)
     @State private var blueSliderValue = Double.random(in: 0...255)
     
-    
-    
     var body: some View {
         ZStack (alignment: .top) {
             Color(
@@ -56,21 +54,17 @@ struct ContentView: View {
 
 
 struct ColorSliderView: View {
-    @FocusState var isInputActive: Bool
     @Binding var value: Double
+    @FocusState var isInputActive: Bool
     
     let color: Color
     
     var body: some View {
         HStack {
-            
-                Text("\(lround(value))").foregroundColor(.white)
-                
-           
-            
+            Text("\(lround(value))").foregroundColor(.white)
+                .frame(width: 35)
             Slider(value: $value, in: 0...255, step: 1)
                 .tint(color)
-            
             TextField("", value: $value, formatter: NumberFormatter())
                 .bordered()
                 .textFieldStyle(.roundedBorder)
@@ -78,23 +72,18 @@ struct ColorSliderView: View {
                 .keyboardType(.numberPad)
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard){
-                    
-                            Button("Done") {
-                                isInputActive = false
-                            }
-                            .opacity(isInputActive ? 1 : 0)
+                        Button("Done")
+                        {
+                            isInputActive = false
                             
-                        
-                        
+                        }
+                        .opacity(isInputActive ? 1 : 0)
                     }
                 }
-            
         }
-        
     }
-    
-    
 }
+
 
 struct BorderedViewModifier: ViewModifier {
     func body(content: Content) -> some View {
@@ -114,18 +103,6 @@ extension TextField {
         modifier(BorderedViewModifier())
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 struct ContentView_Previews: PreviewProvider {
